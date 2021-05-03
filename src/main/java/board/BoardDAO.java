@@ -23,7 +23,8 @@ public class BoardDAO {
 	}
 	
 	public ArrayList<BoardDTO> list(){
-		String sql = "select * from test_board";
+		//String sql = "select * from test_board";
+		String sql = "select * from test_board order by idgroup desc, step asc";
 		ArrayList<BoardDTO> list = new ArrayList<BoardDTO>();
 		
 		try {
@@ -90,7 +91,7 @@ public class BoardDAO {
 			if(rs.next()) {
 				dto = new BoardDTO();
 				
-				dto.setNumber(rs.getInt("id"));//여기가 널
+				dto.setNumber(rs.getInt("id"));
 				dto.setHit(rs.getInt("hit"));
 				dto.setIdgroup(rs.getInt("idgroup"));
 				dto.setStep(rs.getInt("step"));
@@ -131,6 +132,71 @@ public class BoardDAO {
 		try {
 			con = DriverManager.getConnection(url, id, pwd);
 			ps = con.prepareStatement(sql);
+			ps.executeUpdate();
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	public BoardDTO reply_view(String number) {
+		String sql = "select * from test_board where id="+number;
+		BoardDTO dto = null;
+		try {
+			con = DriverManager.getConnection(url, id, pwd);
+			ps = con.prepareStatement(sql);
+			rs = ps.executeQuery();
+			if(rs.next()) {
+				dto = new BoardDTO();
+				
+				dto.setNumber(rs.getInt("id"));
+				dto.setHit(rs.getInt("hit"));
+				dto.setIdgroup(rs.getInt("idgroup"));
+				dto.setStep(rs.getInt("step"));
+				dto.setIndent(rs.getInt("indent"));
+			
+				dto.setTitle(rs.getString("title"));
+				dto.setName(rs.getString("name"));
+				dto.setContent(rs.getString("content"));
+				
+				dto.setSavedate(rs.getTimestamp("savedate"));
+				
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return dto;
+	}
+	private void replyShape(BoardDTO dto) {
+		String sql = "update test_board set step = step+1 where idgroup=? and step > ?";
+		try {
+			con = DriverManager.getConnection(url, id, pwd);
+			ps = con.prepareStatement(sql);
+			
+			ps.setInt(1, dto.getIdgroup());
+			ps.setInt(2, dto.getStep());
+		
+			ps.executeUpdate();
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	public void reply(BoardDTO dto) {
+		replyShape(dto);
+		String sql =
+				"insert into test_board(id,name,title,content,idgroup,step,indent)"+
+						"values(test_board_seq.nextval,?,?,?,?,?,?)";
+		try {
+			con = DriverManager.getConnection(url, id, pwd);
+			ps = con.prepareStatement(sql);
+			ps.setString(1, dto.getName());
+			ps.setString(2, dto.getTitle());
+			ps.setString(3, dto.getContent());
+			
+			ps.setInt(4, dto.getIdgroup());
+			ps.setInt(5, dto.getStep()+1);
+			ps.setInt(6, dto.getIndent()+1);
+			
 			ps.executeUpdate();
 			
 		} catch (Exception e) {

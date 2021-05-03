@@ -20,6 +20,7 @@
 			<tr>
 				<td>${dto.number }</td> <td>${dto.name }</td>
 				<td>
+					<c:forEach begin="1" end="${dto.indent }">-></c:forEach>
 					<a href="content_view.jsp?id=${dto.number }">${dto.title }</a>
 				
 				</td> 

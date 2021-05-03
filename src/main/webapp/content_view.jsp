@@ -44,10 +44,15 @@
 					<input type="submit" value="수정"> &nbsp;
 					<a href="list.jsp">목록이동</a>&nbsp;
 					<a href="delete.jsp?id=${dto.number }">삭제</a>&nbsp;
-					<a href="">답변</a>
+					<a href="reply_view.jsp?id=${dto.number }">답변</a>
 				</td>
 			</tr>
 		</table>
 	</form>
 </body>
 </html>
+
+
+
+
+

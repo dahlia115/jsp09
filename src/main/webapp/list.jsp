@@ -20,7 +20,8 @@
 			<tr>
 				<td>${dto.number }</td> <td>${dto.name }</td>
 				<td>
-					<a href="">${dto.title }</a>
+					<a href="content_view.jsp?id=${dto.number }">${dto.title }</a>
+				
 				</td> 
 				<td>${dto.savedate }</td>
 				<td>${dto.hit }</td> <td>${dto.idgroup }</td>
@@ -34,5 +35,6 @@
 			</tr>
 		</table>
 	</div>
+	
 </body>
 </html>

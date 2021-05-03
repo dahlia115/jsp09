@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 public class BoardDAO {
@@ -105,6 +106,36 @@ public class BoardDAO {
 			e.printStackTrace();
 		}
 		return dto;
+	}
+	
+	public void modify(BoardDTO dto) {
+		String sql = "update test_board set name=?,title=?,content=? where id=?";
+		try {
+			con = DriverManager.getConnection(url, id, pwd);
+			ps = con.prepareStatement(sql);
+			ps.setString(1, dto.getName());
+			ps.setString(2, dto.getTitle());
+			ps.setString(3, dto.getContent());
+			ps.setInt(4, dto.getNumber());
+			
+			ps.executeUpdate();
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+	}
+	
+	public void delete(String number) {
+		String sql = "delete from test_board where id="+number;
+		try {
+			con = DriverManager.getConnection(url, id, pwd);
+			ps = con.prepareStatement(sql);
+			ps.executeUpdate();
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 }
 

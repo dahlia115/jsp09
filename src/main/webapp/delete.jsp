@@ -7,6 +7,10 @@
 <title>Insert title here</title>
 </head>
 <body>
-
+	<jsp:useBean id="dao" class="board.BoardDAO"/>
+	${dao.delete(param.id) }
+	<%
+		response.sendRedirect("list.jsp");
+	%>
 </body>
 </html>

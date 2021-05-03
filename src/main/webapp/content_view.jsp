@@ -12,9 +12,9 @@
 	<fmt:requestEncoding value="utf-8"/>
 	<jsp:useBean id="dao" class="board.BoardDAO"/>
 	<c:set var="dto" value="${dao.contentView(param.id) }"/>
-	<form action="">
-		<input type="hidden" name="id" value="${dto.number }">
-		<table>
+	<form action="modify.jsp">
+		<input type="hidden" name="number" value="${dto.number }">
+		<table border="1">
 			<tr>
 				<td>번호</td><td>${dto.number }</td>
 			</tr>
@@ -43,7 +43,7 @@
 				<td colspan="2">
 					<input type="submit" value="수정"> &nbsp;
 					<a href="list.jsp">목록이동</a>&nbsp;
-					<a href="">삭제</a>&nbsp;
+					<a href="delete.jsp?id=${dto.number }">삭제</a>&nbsp;
 					<a href="">답변</a>
 				</td>
 			</tr>
